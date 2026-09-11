@@ -61,16 +61,14 @@ export default function Hero() {
               <div className="scan-line" aria-hidden="true"></div>
               <div className="metric">
                 <span className="label">Delivery Velocity</span>
-                <strong className="count-up" data-count-to="3.2" data-suffix="x">
-                  0x
-                </strong>
+                <strong>3.2x</strong>
               </div>
               <div className="bars" aria-hidden="true">
-                <span data-height="35"></span>
-                <span data-height="52"></span>
-                <span data-height="68"></span>
-                <span data-height="88"></span>
-                <span data-height="100"></span>
+                <span style={{ "--bar-height": "35%" }}></span>
+                <span style={{ "--bar-height": "52%" }}></span>
+                <span style={{ "--bar-height": "68%" }}></span>
+                <span style={{ "--bar-height": "88%" }}></span>
+                <span style={{ "--bar-height": "100%" }}></span>
               </div>
               <div className="pill-row">
                 <span>AI</span>
@@ -81,15 +79,11 @@ export default function Hero() {
           </div>
 
           <div className="floating-badge badge-one">
-            <strong className="count-up" data-count-to="24" data-suffix="/7">
-              0
-            </strong>
+            <strong>24/7</strong>
             <span>Ops & support</span>
           </div>
           <div className="floating-badge badge-two">
-            <strong className="count-up" data-count-to="99.9" data-suffix="%">
-              0%
-            </strong>
+            <strong>99.9%</strong>
             <span>Platform uptime</span>
           </div>
         </div>
