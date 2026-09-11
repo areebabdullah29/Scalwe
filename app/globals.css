@@ -286,7 +286,7 @@ img {
 .eyebrow {
   display: inline-block;
   padding: 8px 12px;
-  border-radius: 999px;
+  border-radius: 10px;
   background: rgba(139, 92, 246, 0.14);
   border: 1px solid rgba(139, 92, 246, 0.2);
   color: var(--secondary);
@@ -481,7 +481,7 @@ img {
 
 .pill-row span {
   padding: 8px 12px;
-  border-radius: 999px;
+  border-radius: 10px;
   background: rgba(139, 92, 246, 0.09);
   color: var(--secondary);
   border: 1px solid rgba(139, 92, 246, 0.18);
@@ -839,7 +839,7 @@ img {
   display: inline-block;
   margin: 18px 22px 10px;
   padding: 5px 12px;
-  border-radius: 999px;
+  border-radius: 10px;
   background: rgba(139, 92, 246, 0.12);
   border: 1px solid rgba(139, 92, 246, 0.2);
   color: var(--secondary);
