@@ -7,7 +7,7 @@ export default function Footer() {
     <footer className="site-footer">
       <div className="container footer-grid">
         <div>
-          <a href="#top" className="brand footer-brand">
+          <a href="/#top" className="brand footer-brand">
             <span className="brand-mark">S</span>
             <span>Scalwe</span>
           </a>

@@ -111,6 +111,24 @@ img {
   transition: color 0.2s ease;
 }
 
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-login {
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 0.92rem;
+  transition: color 0.2s ease;
+}
+
+.nav-login:hover,
+.nav-login:focus-visible {
+  color: var(--text);
+}
+
 .main-nav a:hover,
 .main-nav a:focus-visible {
   color: var(--text);
@@ -958,6 +976,40 @@ img {
   box-shadow: var(--shadow);
 }
 
+.auth-section {
+  padding: 90px 0;
+}
+
+.auth-layout {
+  display: flex;
+  justify-content: center;
+}
+
+.auth-card {
+  width: min(100%, 440px);
+}
+
+.auth-card h1 {
+  margin: 16px 0 8px;
+  font-size: clamp(1.8rem, 3vw, 2.2rem);
+  letter-spacing: -0.04em;
+}
+
+.auth-subtitle {
+  margin: 0 0 8px;
+  color: var(--muted);
+}
+
+.auth-link {
+  color: var(--secondary);
+  font-weight: 600;
+}
+
+.auth-link:hover,
+.auth-link:focus-visible {
+  text-decoration: underline;
+}
+
 .hp-field {
   position: absolute;
   left: -9999px;
@@ -1537,6 +1589,11 @@ img {
     font-size: 0.82rem;
     flex-wrap: wrap;
     justify-content: center;
+  }
+
+  .nav-actions {
+    width: 100%;
+    flex-direction: column;
   }
 
   .nav-cta {
