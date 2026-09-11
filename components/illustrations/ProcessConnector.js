@@ -14,7 +14,7 @@ export default function ProcessConnector() {
         y1="20"
         x2="875"
         y2="20"
-        stroke="#c9a35f"
+        stroke="#8b5cf6"
         strokeOpacity="0.25"
         strokeWidth="2"
         strokeDasharray="6 8"
@@ -27,12 +27,12 @@ export default function ProcessConnector() {
           cx={x}
           cy="20"
           r="7"
-          fill="#1a1a1a"
-          stroke={i % 2 === 0 ? "#c9a35f" : "#e6c98a"}
+          fill="#1a1836"
+          stroke={i % 2 === 0 ? "#8b5cf6" : "#3b82f6"}
           strokeWidth="2"
         />
       ))}
-      <circle className="connector-runner" cx="125" cy="20" r="5" fill="#e6c98a" />
+      <circle className="connector-runner" cx="125" cy="20" r="5" fill="#3b82f6" />
     </svg>
   );
 }

@@ -9,16 +9,11 @@ export default function ParticleField() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
     const ctx = canvas.getContext("2d");
     let width, height, dpr;
     let nodes = [];
-    let raf;
 
-    const NODE_COLOR = "201, 163, 95";
+    const NODE_COLOR = "139, 92, 246";
     const LINK_DISTANCE = 130;
 
     const resize = () => {
@@ -33,21 +28,12 @@ export default function ParticleField() {
       nodes = Array.from({ length: Math.min(count, 70) }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.25,
-        vy: (Math.random() - 0.5) * 0.25,
         r: Math.random() * 1.6 + 0.6,
       }));
     };
 
     const draw = () => {
       ctx.clearRect(0, 0, width, height);
-
-      for (const n of nodes) {
-        n.x += n.vx;
-        n.y += n.vy;
-        if (n.x < 0 || n.x > width) n.vx *= -1;
-        if (n.y < 0 || n.y > height) n.vy *= -1;
-      }
 
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
@@ -73,22 +59,18 @@ export default function ParticleField() {
         ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
         ctx.fill();
       }
-
-      raf = requestAnimationFrame(draw);
     };
 
-    resize();
-    window.addEventListener("resize", resize);
-
-    if (!prefersReducedMotion) {
-      raf = requestAnimationFrame(draw);
-    } else {
+    const redraw = () => {
+      resize();
       draw();
-    }
+    };
+
+    redraw();
+    window.addEventListener("resize", redraw);
 
     return () => {
-      window.removeEventListener("resize", resize);
-      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener("resize", redraw);
     };
   }, []);
 

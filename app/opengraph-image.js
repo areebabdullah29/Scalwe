@@ -18,8 +18,8 @@ export default function OgImage() {
           justifyContent: "center",
           padding: "80px",
           background:
-            "linear-gradient(135deg, #0a0a0a 0%, #111111 60%, #080808 100%)",
-          color: "#f5f5f2",
+            "linear-gradient(135deg, #080710 0%, #131129 60%, #05040b 100%)",
+          color: "#ffffff",
           fontFamily: "sans-serif",
         }}
       >
@@ -39,8 +39,8 @@ export default function OgImage() {
               width: 64,
               height: 64,
               borderRadius: 18,
-              background: "linear-gradient(135deg, #c9a35f 0%, #e6c98a 100%)",
-              color: "#171208",
+              background: "linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%)",
+              color: "#ffffff",
               fontSize: 34,
               fontWeight: 900,
             }}
@@ -56,7 +56,7 @@ export default function OgImage() {
           style={{
             marginTop: 30,
             fontSize: 26,
-            color: "#8f8f8f",
+            color: "#94a3b8",
             maxWidth: 820,
           }}
         >
