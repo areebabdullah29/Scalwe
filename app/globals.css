@@ -365,27 +365,8 @@ img {
   inset: -2px;
   z-index: -1;
   border-radius: 32px;
-  background: conic-gradient(
-    from var(--ring-angle, 0deg),
-    transparent 0%,
-    var(--primary) 15%,
-    var(--secondary) 30%,
-    transparent 45%
-  );
-  animation: spin-ring 5s linear infinite;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.35), rgba(59, 130, 246, 0.2));
   opacity: 0.85;
-}
-
-@property --ring-angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
-}
-
-@keyframes spin-ring {
-  to {
-    --ring-angle: 360deg;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -716,7 +697,7 @@ img {
 
 .tech-tab {
   padding: 10px 18px;
-  border-radius: 999px;
+  border-radius: 14px;
   border: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.02);
   color: var(--muted);
@@ -732,9 +713,9 @@ img {
 }
 
 .tech-tab.is-active {
-  color: #ffffff;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-  border-color: transparent;
+  color: var(--secondary);
+  background: rgba(139, 92, 246, 0.12);
+  border-color: rgba(139, 92, 246, 0.5);
 }
 
 .tech-pills {
@@ -1744,7 +1725,7 @@ img {
 
 .chat-quick-replies button {
   padding: 9px 14px;
-  border-radius: 999px;
+  border-radius: 14px;
   border: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.03);
   color: var(--text);
