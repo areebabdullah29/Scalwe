@@ -20,12 +20,6 @@ export default function Header() {
         </nav>
 
         <div className="nav-actions">
-          <Link href="/login" className="nav-login">
-            Log in
-          </Link>
-          <Link href="/signup" className="btn btn-secondary nav-cta">
-            Sign up
-          </Link>
           <a
             href={`mailto:${siteConfig.email}?subject=${encodeURIComponent(
               "Booking a call with Scalwe"
