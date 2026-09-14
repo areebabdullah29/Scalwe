@@ -17,12 +17,6 @@
   box-sizing: border-box;
 }
 
-*,
-*::before,
-*::after {
-  animation: none !important;
-}
-
 html {
   scroll-behavior: smooth;
   background: #080710;
