@@ -10,18 +10,18 @@ export default function Services() {
           <h2>Digital engineering solutions built for real business outcomes.</h2>
         </div>
 
-        <div className="services-grid">
-          {siteConfig.services.map((service, i) => (
-            <article
-              key={service.slug}
-              className="service-card reveal"
-              data-reveal-delay={i % 4}
-            >
-              <div className="icon">{serviceIcons[service.slug]}</div>
-              <h3>{service.name}</h3>
-              <p>{service.description}</p>
-            </article>
-          ))}
+        <div className="services-marquee">
+          <div className="services-grid">
+            {[...siteConfig.services, ...siteConfig.services, ...siteConfig.services].map(
+              (service, i) => (
+                <article key={`${service.slug}-${i}`} className="service-card">
+                  <div className="icon">{serviceIcons[service.slug]}</div>
+                  <h3>{service.name}</h3>
+                  <p>{service.description}</p>
+                </article>
+              )
+            )}
+          </div>
         </div>
       </div>
     </section>

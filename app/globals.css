@@ -133,21 +133,91 @@ img {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary-strong) 0%, var(--primary) 100%);
-  border: 1px solid rgba(139, 92, 246, 0.9);
-  color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.18), 0 16px 32px rgba(0, 0, 0, 0.45);
-  transition: box-shadow 0.2s ease;
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid rgba(139, 92, 246, 0.7);
+  color: #c4b5fd;
+  box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.25), 0 0 22px rgba(139, 92, 246, 0.45);
+  transition: box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
 }
 
 .btn-primary:hover {
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.28), 0 20px 40px rgba(0, 0, 0, 0.55);
+  background: rgba(139, 92, 246, 0.16);
+  color: #ffffff;
+  box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.4), 0 0 30px rgba(139, 92, 246, 0.6);
 }
 
 .btn-secondary {
-  border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: transparent;
   color: var(--text);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus-visible {
+  border-color: rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.services-ribbon {
+  position: relative;
+  z-index: 5;
+  overflow: hidden;
+  margin-bottom: -34px;
+}
+
+.services-ribbon-inner {
+  position: relative;
+  left: -8%;
+  width: 116%;
+  transform: rotate(-2.4deg);
+  transform-origin: center;
+  overflow: hidden;
+  background: linear-gradient(100deg, var(--primary-strong), var(--secondary));
+  box-shadow: 0 18px 40px rgba(4, 3, 12, 0.5);
+}
+
+.services-ribbon-track {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  width: max-content;
+  padding: 16px 0;
+  white-space: nowrap;
+  animation: ribbon-marquee 32s linear infinite;
+}
+
+.ribbon-item {
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+}
+
+.ribbon-star {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+@keyframes ribbon-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-33.333%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .services-ribbon-track {
+    animation: none !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .services-ribbon-inner {
+    left: -14%;
+    width: 128%;
+  }
+  .ribbon-item {
+    font-size: 0.88rem;
+  }
 }
 
 .hero {
@@ -256,7 +326,47 @@ img {
 }
 
 .shimmer-text {
-  color: var(--text);
+  background: linear-gradient(
+    100deg,
+    var(--text) 30%,
+    var(--primary) 45%,
+    var(--secondary) 50%,
+    var(--text) 65%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 6s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -20% 0; }
+}
+
+.rotating-word {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--secondary), var(--primary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.rotating-word.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rotating-word {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 .hero-grid {
@@ -404,7 +514,14 @@ img {
 }
 
 .scan-line {
-  display: none;
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--secondary), var(--primary), transparent);
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+  animation: scan-sweep 3.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 
 @keyframes scan-sweep {
@@ -449,10 +566,15 @@ img {
 
 .bars span {
   display: block;
-  height: var(--bar-height, 0%);
+  height: 0;
   border-radius: 12px 12px 0 0;
   background: linear-gradient(180deg, var(--secondary), var(--primary));
   box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.12);
+  transition: height 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bars.is-animated span {
+  height: var(--bar-height, 0%);
 }
 
 .pill-row {
@@ -613,14 +735,38 @@ img {
   font-size: clamp(2.2rem, 3vw, 3.4rem);
 }
 
+.services-marquee {
+  overflow: hidden;
+  margin-top: 40px;
+  mask-image: linear-gradient(90deg, transparent, black 6%, black 94%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 6%, black 94%, transparent);
+}
+
 .services-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  display: flex;
+  width: max-content;
   gap: 22px;
+  animation: services-scroll 44s linear infinite;
+}
+
+.services-marquee:hover .services-grid {
+  animation-play-state: paused;
+}
+
+@keyframes services-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-33.333%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .services-grid {
+    animation: none !important;
+  }
 }
 
 .service-card {
   position: relative;
+  flex: 0 0 280px;
   padding: 26px 22px 22px;
   border-radius: 22px;
   background: rgba(19, 17, 41, 0.82);
@@ -1491,7 +1637,6 @@ img {
 @media (max-width: 980px) {
   .hero-grid,
   .split-grid,
-  .services-grid,
   .process-grid,
   .footer-grid {
     grid-template-columns: 1fr 1fr;
@@ -1502,8 +1647,8 @@ img {
     grid-template-columns: 1fr;
   }
 
-  .services-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .service-card {
+    flex-basis: 260px;
   }
 
   .process-grid {
@@ -1557,12 +1702,15 @@ img {
     font-size: 2.7rem;
   }
 
-  .services-grid,
   .process-grid,
   .footer-grid,
   .testimonials-grid,
   .stats-grid {
     grid-template-columns: 1fr;
+  }
+
+  .service-card {
+    flex-basis: 240px;
   }
 
   .logos-inner {
@@ -1783,8 +1931,23 @@ img {
 }
 
 .reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--reveal-delay, 0) * 90ms);
+}
+
+.reveal.is-visible {
   opacity: 1;
   transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 .nav-cta,
