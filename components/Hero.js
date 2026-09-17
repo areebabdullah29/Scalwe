@@ -24,8 +24,9 @@ export default function Hero() {
             <span className="eyebrow-dot" aria-hidden="true"></span>
             Engineering for the next era
           </span>
-          <h1 className="shimmer-text">
-            From AI ideas to <RotatingWords words={heroRotatingWords} />
+          <h1>
+            <span className="shimmer-text">From AI ideas to</span>{" "}
+            <RotatingWords words={heroRotatingWords} />
           </h1>
           <p>
             Scalwe partners with founders, product teams, and enterprises to
