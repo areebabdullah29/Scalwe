@@ -1,24 +1,48 @@
 "use client";
 
-import { useState, type ChangeEvent, type FormEvent } from "react";
-import { siteConfig } from "@/lib/site-config";
+import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
+import { countries } from "@/lib/countries";
 
-const initialForm = { name: "", email: "", service: "", message: "", website: "" };
+const RECAPTCHA_SITE_KEY =
+  process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
+
+const initialForm = {
+  challenge: "",
+  firstName: "",
+  lastName: "",
+  email: "",
+  company: "",
+  country: "",
+  website: "",
+};
 
 type Status = "idle" | "submitting" | "success" | "error";
 
 export default function ContactForm() {
   const [form, setForm] = useState(initialForm);
+  const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
   const [feedback, setFeedback] = useState("");
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const recaptchaToken = recaptchaRef.current?.getValue();
+    if (!recaptchaToken) {
+      setStatus("error");
+      setFeedback("Please confirm you're not a robot.");
+      return;
+    }
+
     setStatus("submitting");
     setFeedback("");
 
@@ -26,46 +50,46 @@ export default function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, consent, recaptchaToken }),
       });
       const data = await res.json();
 
       if (!res.ok) {
         setStatus("error");
         setFeedback(data.error || "Something went wrong. Please try again.");
+        recaptchaRef.current?.reset();
         return;
       }
 
       setStatus("success");
       setFeedback(
-        data.warning ||
-          "Thanks — your message is in. We'll get back to you within 24 hours."
+        data.warning || "Thanks — your enquiry is in. We'll get back to you within 24 hours."
       );
       setForm(initialForm);
+      setConsent(false);
+      recaptchaRef.current?.reset();
     } catch {
       setStatus("error");
       setFeedback("Network error — please try again in a moment.");
+      recaptchaRef.current?.reset();
     }
   };
 
   return (
-    <section id="contact" className="section section-alt">
-      <div className="container contact-layout">
-        <div className="reveal">
-          <span className="eyebrow">Get in touch</span>
-          <h2>Tell us about your project.</h2>
-          <p>
-            Fill out the form and we'll reply within 24 hours to schedule a
-            short discovery call.
-          </p>
-          <ul className="contact-info-list">
-            <li>Email: {siteConfig.email}</li>
-            <li>Phone: {siteConfig.phone}</li>
-            <li>Available worldwide</li>
-          </ul>
-        </div>
+    <section id="contact" className="contact-hero">
+      <div className="contact-hero-visual" aria-hidden="true">
+        <span className="contact-hero-stripes"></span>
+        <span className="contact-hero-glow"></span>
+      </div>
 
-        <form className="contact-form reveal" data-reveal-delay="1" onSubmit={handleSubmit}>
+      <div className="contact-hero-copy reveal">
+        <h2>
+          <span className="accent">Let&apos;s build</span> what&apos;s next, together.
+        </h2>
+      </div>
+
+      <div className="contact-hero-form-wrap reveal" data-reveal-delay="1">
+        <form className="contact-card" onSubmit={handleSubmit}>
           <input
             type="text"
             name="website"
@@ -78,58 +102,127 @@ export default function ContactForm() {
           />
 
           <div className="form-row">
-            <label htmlFor="name">Name</label>
-            <input
-              id="name"
-              name="name"
-              type="text"
+            <label htmlFor="challenge">
+              Your challenge/goal <span className="required">*</span>
+            </label>
+            <textarea
+              id="challenge"
+              name="challenge"
+              rows={2}
               required
-              value={form.name}
+              value={form.challenge}
               onChange={handleChange}
-              placeholder="Your name"
             />
           </div>
 
-          <div className="form-row">
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              value={form.email}
-              onChange={handleChange}
-              placeholder="you@company.com"
-            />
+          <div className="form-row-group">
+            <div className="form-row">
+              <label htmlFor="firstName">
+                First Name <span className="required">*</span>
+              </label>
+              <input
+                id="firstName"
+                name="firstName"
+                type="text"
+                required
+                value={form.firstName}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-row">
+              <label htmlFor="lastName">
+                Last Name <span className="required">*</span>
+              </label>
+              <input
+                id="lastName"
+                name="lastName"
+                type="text"
+                required
+                value={form.lastName}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+
+          <div className="form-row-group">
+            <div className="form-row">
+              <label htmlFor="email">
+                Email Address <span className="required">*</span>
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                value={form.email}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-row">
+              <label htmlFor="company">
+                Company name <span className="required">*</span>
+              </label>
+              <input
+                id="company"
+                name="company"
+                type="text"
+                required
+                value={form.company}
+                onChange={handleChange}
+              />
+            </div>
           </div>
 
           <div className="form-row">
-            <label htmlFor="service">Service</label>
-            <select id="service" name="service" value={form.service} onChange={handleChange}>
-              <option value="">Select a service</option>
-              {siteConfig.services.map((s) => (
-                <option key={s.slug} value={s.name}>
-                  {s.name}
+            <label htmlFor="country">
+              Country <span className="required">*</span>
+            </label>
+            <select
+              id="country"
+              name="country"
+              required
+              value={form.country}
+              onChange={handleChange}
+            >
+              <option value="">Select a country</option>
+              {countries.map((c) => (
+                <option key={c} value={c}>
+                  {c}
                 </option>
               ))}
             </select>
           </div>
 
-          <div className="form-row">
-            <label htmlFor="message">Message</label>
-            <textarea
-              id="message"
-              name="message"
-              rows={4}
-              required
-              value={form.message}
-              onChange={handleChange}
-              placeholder="What are you looking to build?"
-            />
+          <div className="recaptcha-row">
+            <ReCAPTCHA ref={recaptchaRef} sitekey={RECAPTCHA_SITE_KEY} />
           </div>
 
-          <button type="submit" className="btn btn-primary" disabled={status === "submitting"}>
-            {status === "submitting" ? "Sending..." : "Send message"}
+          <label className="consent-row">
+            <input
+              type="checkbox"
+              checked={consent}
+              onChange={(e) => setConsent(e.target.checked)}
+            />
+            <span>
+              I would like to sign up with my email address to receive{" "}
+              <strong>Scalwe</strong> communications with updates, valuable resources
+              and useful tips.
+            </span>
+          </label>
+
+          <p className="contact-legal">
+            By submitting this form you confirm that you agree to Scalwe&apos;s{" "}
+            <a href="#">privacy policy</a>.
+          </p>
+          <p className="contact-legal">
+            This site is protected by reCAPTCHA and the Google{" "}
+            <a href="https://policies.google.com/privacy">Privacy Policy</a> and{" "}
+            <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+          </p>
+
+          <button type="submit" className="btn btn-dark" disabled={status === "submitting"}>
+            {status === "submitting" ? "Submitting..." : "Submit Enquiry"}
+            <span aria-hidden="true">→</span>
           </button>
 
           {feedback && (

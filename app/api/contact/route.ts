@@ -3,11 +3,36 @@ import { siteConfig } from "@/lib/site-config";
 
 type ContactBody = {
   name?: string;
+  firstName?: string;
+  lastName?: string;
   email?: string;
+  company?: string;
+  country?: string;
   service?: string;
   message?: string;
+  challenge?: string;
   website?: string;
+  recaptchaToken?: string;
 };
+
+async function verifyRecaptcha(token: string | undefined): Promise<boolean> {
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+  if (!secretKey) return true; // not configured yet — don't block submissions
+  if (!token) return false;
+
+  try {
+    const res = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ secret: secretKey, response: token }),
+    });
+    const data = await res.json();
+    return Boolean(data.success);
+  } catch (err) {
+    console.error("reCAPTCHA verification error:", err);
+    return false;
+  }
+}
 
 export async function POST(request: NextRequest) {
   let body: ContactBody;
@@ -17,7 +42,20 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
-  const { name, email, service, message, website } = body || {};
+  const {
+    firstName,
+    lastName,
+    email,
+    company,
+    country,
+    service,
+    challenge,
+    website,
+    recaptchaToken,
+  } = body || {};
+
+  const name = body.name || [firstName, lastName].filter(Boolean).join(" ");
+  const message = body.message || challenge;
 
   // Honeypot field — bots tend to fill every input, real users never see it.
   if (website) {
@@ -26,7 +64,7 @@ export async function POST(request: NextRequest) {
 
   if (!name || !email || !message) {
     return NextResponse.json(
-      { error: "Name, email, and message are required." },
+      { error: "Name, email, and your challenge/goal are required." },
       { status: 400 }
     );
   }
@@ -36,13 +74,31 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Please provide a valid email address." }, { status: 400 });
   }
 
+  const recaptchaOk = await verifyRecaptcha(recaptchaToken);
+  if (!recaptchaOk) {
+    return NextResponse.json(
+      { error: "reCAPTCHA verification failed. Please try again." },
+      { status: 400 }
+    );
+  }
+
   const apiKey = process.env.RESEND_API_KEY;
   const toEmail = process.env.CONTACT_TO_EMAIL || siteConfig.email;
+
+  const details = [
+    company ? `Company: ${company}` : null,
+    country ? `Country: ${country}` : null,
+    service ? `Service: ${service}` : null,
+  ]
+    .filter(Boolean)
+    .join("\n");
 
   if (!apiKey) {
     console.log("Contact form submission (RESEND_API_KEY not set):", {
       name,
       email,
+      company,
+      country,
       service,
       message,
     });
@@ -64,8 +120,8 @@ export async function POST(request: NextRequest) {
         from: `Scalwe Website <onboarding@resend.dev>`,
         to: toEmail,
         reply_to: email,
-        subject: `New inquiry from ${name}${service ? ` — ${service}` : ""}`,
-        text: `${message}\n\n---\nFrom: ${name} <${email}>\nService: ${service || "Not specified"}`,
+        subject: `New inquiry from ${name}${company ? ` — ${company}` : ""}`,
+        text: `${message}\n\n---\nFrom: ${name} <${email}>${details ? `\n${details}` : ""}`,
       }),
     });
 
