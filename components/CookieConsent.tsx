@@ -16,7 +16,7 @@ export default function CookieConsent() {
     }
   }, []);
 
-  const choose = (value) => {
+  const choose = (value: "accepted" | "rejected") => {
     try {
       window.localStorage.setItem(STORAGE_KEY, value);
     } catch {

@@ -5,7 +5,8 @@ import { siteConfig } from "@/lib/site-config";
 
 export default function TechStack() {
   const [active, setActive] = useState(siteConfig.techStack[0].category);
-  const activeGroup = siteConfig.techStack.find((g) => g.category === active);
+  const activeGroup =
+    siteConfig.techStack.find((g) => g.category === active) ?? siteConfig.techStack[0];
 
   return (
     <section id="tech" className="section section-alt">

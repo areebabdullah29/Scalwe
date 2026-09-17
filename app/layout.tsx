@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/lib/site-config";
@@ -10,7 +12,7 @@ const inter = Inter({
   display: "swap",
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
     default: siteConfig.title,
@@ -69,7 +71,7 @@ const organizationJsonLd = {
   })),
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={inter.variable}>
       <body>

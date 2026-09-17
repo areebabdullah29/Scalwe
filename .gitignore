@@ -4,3 +4,7 @@ out
 .env
 .env*.local
 npm-debug.log*
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts

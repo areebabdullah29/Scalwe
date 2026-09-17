@@ -1,8 +1,16 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { siteConfig } from "@/lib/site-config";
 
-export async function POST(request) {
-  let body;
+type ContactBody = {
+  name?: string;
+  email?: string;
+  service?: string;
+  message?: string;
+  website?: string;
+};
+
+export async function POST(request: NextRequest) {
+  let body: ContactBody;
   try {
     body = await request.json();
   } catch {

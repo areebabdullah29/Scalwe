@@ -2,22 +2,27 @@
 
 import { useEffect, useRef } from "react";
 
+type Node = { x: number; y: number; r: number };
+
 export default function ParticleField() {
-  const canvasRef = useRef(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
-    let width, height, dpr;
-    let nodes = [];
+    if (!ctx) return;
+
+    let width = 0;
+    let height = 0;
+    let nodes: Node[] = [];
 
     const NODE_COLOR = "139, 92, 246";
     const LINK_DISTANCE = 130;
 
     const resize = () => {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       width = canvas.clientWidth;
       height = canvas.clientHeight;
       canvas.width = width * dpr;

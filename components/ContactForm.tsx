@@ -1,21 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import { siteConfig } from "@/lib/site-config";
 
 const initialForm = { name: "", email: "", service: "", message: "", website: "" };
 
+type Status = "idle" | "submitting" | "success" | "error";
+
 export default function ContactForm() {
   const [form, setForm] = useState(initialForm);
-  const [status, setStatus] = useState("idle");
+  const [status, setStatus] = useState<Status>("idle");
   const [feedback, setFeedback] = useState("");
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("submitting");
     setFeedback("");

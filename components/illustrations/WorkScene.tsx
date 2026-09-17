@@ -1,4 +1,4 @@
-const devices = {
+const devices: Record<string, (gradId: string) => JSX.Element> = {
   ai: (gradId) => (
     <g>
       <path d="M128 150 L202 150 L193 170 L120 170 Z" fill={`url(#${gradId})`} />
@@ -52,7 +52,7 @@ const devices = {
   ),
 };
 
-export default function WorkScene({ variant = "ai" }) {
+export default function WorkScene({ variant = "ai" }: { variant?: string }) {
   const gradId = `work-grad-${variant}`;
   const renderDevice = devices[variant] || devices.ai;
 

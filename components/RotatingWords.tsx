@@ -2,7 +2,12 @@
 
 import { useEffect, useState } from "react";
 
-export default function RotatingWords({ words, interval = 2400 }) {
+type RotatingWordsProps = {
+  words: string[];
+  interval?: number;
+};
+
+export default function RotatingWords({ words, interval = 2400 }: RotatingWordsProps) {
   const [index, setIndex] = useState(0);
   const [visible, setVisible] = useState(true);
 

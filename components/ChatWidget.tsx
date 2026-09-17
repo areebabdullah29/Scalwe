@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { siteConfig } from "@/lib/site-config";
 
 const OPEN_EVENT = "scalwe:open-chat";
@@ -12,7 +12,11 @@ const interestOptions = [
 
 const timelineOptions = ["ASAP", "1–3 months", "Just exploring"];
 
-const initialHistory = [
+type ChatEntry = { from: "bot" | "user"; text: string };
+type Step = "interest" | "timeline" | "contact" | "done";
+type Status = "idle" | "submitting" | "success" | "error";
+
+const initialHistory: ChatEntry[] = [
   {
     from: "bot",
     text: "Hi, I'm the Scalwe concierge. What are you looking to build?",
@@ -21,12 +25,12 @@ const initialHistory = [
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
-  const [step, setStep] = useState("interest");
-  const [history, setHistory] = useState(initialHistory);
+  const [step, setStep] = useState<Step>("interest");
+  const [history, setHistory] = useState<ChatEntry[]>(initialHistory);
   const [answers, setAnswers] = useState({ interest: "", timeline: "" });
   const [contact, setContact] = useState({ name: "", email: "", note: "" });
-  const [status, setStatus] = useState("idle");
-  const bodyRef = useRef(null);
+  const [status, setStatus] = useState<Status>("idle");
+  const bodyRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const openChat = () => setOpen(true);
@@ -40,30 +44,30 @@ export default function ChatWidget() {
     }
   }, [history, step]);
 
-  const say = (from, text) => {
+  const say = (from: ChatEntry["from"], text: string) => {
     setHistory((prev) => [...prev, { from, text }]);
   };
 
-  const pickInterest = (value) => {
+  const pickInterest = (value: string) => {
     setAnswers((prev) => ({ ...prev, interest: value }));
     say("user", value);
     say("bot", "Good choice. What's your timeline?");
     setStep("timeline");
   };
 
-  const pickTimeline = (value) => {
+  const pickTimeline = (value: string) => {
     setAnswers((prev) => ({ ...prev, timeline: value }));
     say("user", value);
     say("bot", "Last step — how should we reach you?");
     setStep("contact");
   };
 
-  const handleContactChange = (e) => {
+  const handleContactChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setContact((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleContactSubmit = async (e) => {
+  const handleContactSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("submitting");
 

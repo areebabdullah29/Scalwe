@@ -4,16 +4,16 @@ import { useEffect } from "react";
 
 export default function ScrollAnimations() {
   useEffect(() => {
-    document.querySelectorAll("[data-reveal-delay]").forEach((el) => {
-      el.style.setProperty("--reveal-delay", el.dataset.revealDelay);
+    document.querySelectorAll<HTMLElement>("[data-reveal-delay]").forEach((el) => {
+      el.style.setProperty("--reveal-delay", el.dataset.revealDelay ?? "0");
     });
 
-    const revealEls = document.querySelectorAll(".reveal");
+    const revealEls = document.querySelectorAll<HTMLElement>(".reveal");
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    let revealObserver;
+    let revealObserver: IntersectionObserver | undefined;
     if (prefersReducedMotion || !("IntersectionObserver" in window)) {
       revealEls.forEach((el) => el.classList.add("is-visible"));
     } else {
@@ -28,16 +28,16 @@ export default function ScrollAnimations() {
         },
         { threshold: 0.15, rootMargin: "0px 0px -60px 0px" }
       );
-      revealEls.forEach((el) => revealObserver.observe(el));
+      revealEls.forEach((el) => revealObserver!.observe(el));
     }
 
-    const bars = document.querySelector(".bars");
-    let barsObserver;
+    const bars = document.querySelector<HTMLElement>(".bars");
+    let barsObserver: IntersectionObserver | undefined;
     const startBars = () => {
-      bars.querySelectorAll("span").forEach((bar) => {
+      bars?.querySelectorAll<HTMLElement>("span").forEach((bar) => {
         bar.style.setProperty("--bar-height", `${bar.dataset.height}%`);
       });
-      bars.classList.add("is-animated");
+      bars?.classList.add("is-animated");
     };
     if (bars) {
       if (prefersReducedMotion || !("IntersectionObserver" in window)) {
@@ -56,15 +56,15 @@ export default function ScrollAnimations() {
       }
     }
 
-    const countEls = document.querySelectorAll(".count-up");
-    const animateCount = (el) => {
-      const target = parseFloat(el.dataset.countTo);
+    const countEls = document.querySelectorAll<HTMLElement>(".count-up");
+    const animateCount = (el: HTMLElement) => {
+      const target = parseFloat(el.dataset.countTo ?? "0");
       const suffix = el.dataset.suffix || "";
       const isDecimal = String(el.dataset.countTo).includes(".");
       const duration = 1400;
       const start = performance.now();
 
-      const step = (now) => {
+      const step = (now: number) => {
         const progress = Math.min((now - start) / duration, 1);
         const eased = 1 - Math.pow(1 - progress, 3);
         const value = target * eased;
@@ -76,7 +76,7 @@ export default function ScrollAnimations() {
       requestAnimationFrame(step);
     };
 
-    let countObserver;
+    let countObserver: IntersectionObserver | undefined;
     if (countEls.length) {
       if (prefersReducedMotion || !("IntersectionObserver" in window)) {
         countEls.forEach((el) => {
@@ -87,22 +87,22 @@ export default function ScrollAnimations() {
           (entries, observer) => {
             entries.forEach((entry) => {
               if (entry.isIntersecting) {
-                animateCount(entry.target);
+                animateCount(entry.target as HTMLElement);
                 observer.unobserve(entry.target);
               }
             });
           },
           { threshold: 0.6 }
         );
-        countEls.forEach((el) => countObserver.observe(el));
+        countEls.forEach((el) => countObserver!.observe(el));
       }
     }
 
-    const spotlightEls = document.querySelectorAll(
+    const spotlightEls = document.querySelectorAll<HTMLElement>(
       ".service-card, .feature-box, .testimonial-card"
     );
-    const handleSpotlightMove = (e) => {
-      const el = e.currentTarget;
+    const handleSpotlightMove = (e: PointerEvent) => {
+      const el = e.currentTarget as HTMLElement;
       const rect = el.getBoundingClientRect();
       el.style.setProperty("--spot-x", `${e.clientX - rect.left}px`);
       el.style.setProperty("--spot-y", `${e.clientY - rect.top}px`);

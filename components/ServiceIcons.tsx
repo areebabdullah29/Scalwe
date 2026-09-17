@@ -1,4 +1,6 @@
-export const serviceIcons = {
+import type { ReactNode } from "react";
+
+export const serviceIcons: Record<string, ReactNode> = {
   "ai-development": (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path
