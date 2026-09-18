@@ -1,5 +1,14 @@
 import { siteConfig } from "@/lib/site-config";
 
+const footerLinks = [
+  { href: "/#services", label: "Services" },
+  { href: "/#work", label: "Work" },
+  { href: "/#technology", label: "Technology" },
+  { href: "/#process", label: "Process" },
+  { href: "/#about", label: "About" },
+  { href: "/#contact", label: "Contact" },
+];
+
 export default function Footer() {
   const year = new Date().getFullYear();
 
@@ -8,32 +17,25 @@ export default function Footer() {
       <div className="container footer-grid">
         <div>
           <a href="/#top" className="brand footer-brand">
-            <span className="brand-mark">S</span>
-            <span>Scalwe</span>
+            SCALWE
           </a>
           <p>
-            AI development, SaaS engineering, mobile products, cloud systems,
-            and automation for modern businesses.
+            AI development, software engineering, cloud, data, and automation
+            for ambitious businesses.
           </p>
         </div>
 
-        <div>
-          <h4>Services</h4>
-          <ul>
-            <li>AI Development</li>
-            <li>SaaS Development</li>
-            <li>Mobile Development</li>
-            <li>Cloud & DevOps</li>
-          </ul>
-        </div>
+        <nav aria-label="Footer navigation" className="footer-nav">
+          {footerLinks.map((link) => (
+            <a key={link.href} href={link.href}>
+              {link.label}
+            </a>
+          ))}
+        </nav>
 
         <div>
           <h4>Contact</h4>
-          <ul>
-            <li>Email: {siteConfig.email}</li>
-            <li>Phone: {siteConfig.phone}</li>
-            <li>Available worldwide</li>
-          </ul>
+          <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
         </div>
       </div>
 

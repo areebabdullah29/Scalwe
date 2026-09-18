@@ -1,26 +1,29 @@
 export const siteConfig = {
   name: "Scalwe",
-  title: "Scalwe | AI Development & Digital Engineering",
+  title: "Scalwe | Engineering What's Next",
   description:
-    "Scalwe builds AI systems, SaaS platforms, mobile apps, cloud infrastructure, data pipelines, and automation solutions for modern businesses.",
+    "Scalwe is a digital engineering company building AI systems, software platforms, cloud infrastructure, and data systems for ambitious businesses.",
   url: "https://www.scalwe.com",
   email: "hello@scalwe.com",
-  phone: "+1-555-123-4567",
   keywords: [
+    "digital engineering company",
     "AI development company",
-    "SaaS development agency",
-    "mobile app development",
+    "software development agency",
     "cloud and DevOps consulting",
     "data engineering services",
     "AI automation",
     "staff augmentation",
     "technical consulting",
   ],
-  stats: [
-    { value: 120, suffix: "+", label: "Projects delivered" },
-    { value: 98, suffix: "%", label: "Client satisfaction" },
-    { value: 40, suffix: "+", label: "Engineers & specialists" },
-    { value: 24, suffix: "/7", label: "Support coverage" },
+  capabilities: [
+    "AI Engineering",
+    "Software Development",
+    "SaaS",
+    "Mobile",
+    "Cloud",
+    "Data",
+    "Automation",
+    "Digital Transformation",
   ],
   techStack: [
     {
@@ -29,7 +32,7 @@ export const siteConfig = {
     },
     {
       category: "Backend",
-      items: ["Node.js", "Python", "Django", "PostgreSQL", "GraphQL"],
+      items: ["Node.js", "Python", "FastAPI", "PostgreSQL", "GraphQL"],
     },
     {
       category: "Mobile",
@@ -37,68 +40,61 @@ export const siteConfig = {
     },
     {
       category: "Cloud & DevOps",
-      items: ["AWS", "GCP", "Docker", "Kubernetes", "Terraform"],
+      items: ["AWS", "Azure", "Docker", "Kubernetes", "Terraform"],
     },
     {
       category: "AI & Data",
-      items: ["PyTorch", "OpenAI", "LangChain", "Airflow", "Snowflake"],
+      items: ["OpenAI", "Anthropic", "PyTorch", "LangChain", "Snowflake"],
     },
   ],
-  // Placeholder portfolio items — replace each entry with a real project
-  // (title, one-line result, category, icon key from ServiceIcons) before launch.
-  portfolioCategories: ["All", "AI & Automation", "Web & SaaS", "Mobile", "Cloud & Data"],
-  portfolio: [
+  industries: [
     {
-      id: "p1",
-      title: "Add your first project",
-      result: "Replace this card in lib/site-config.js",
-      category: "AI & Automation",
-      icon: "ai-development",
-      scene: "ai",
+      name: "Financial Services",
+      description:
+        "Secure, compliant platforms for payments, lending, and financial data — built to withstand real regulatory and security scrutiny.",
+      capabilities: ["Core platforms", "Fraud & risk systems", "Data compliance"],
     },
     {
-      id: "p2",
-      title: "Add your second project",
-      result: "Replace this card in lib/site-config.js",
-      category: "Web & SaaS",
-      icon: "saas-development",
-      scene: "web",
+      name: "Healthcare",
+      description:
+        "Software for clinical, operational, and patient-facing systems, engineered around data privacy and interoperability from day one.",
+      capabilities: ["Patient platforms", "Interoperability", "HIPAA-aware architecture"],
     },
     {
-      id: "p3",
-      title: "Add your third project",
-      result: "Replace this card in lib/site-config.js",
-      category: "Mobile",
-      icon: "mobile-development",
-      scene: "mobile",
+      name: "Retail & E-commerce",
+      description:
+        "Commerce systems that hold up under real traffic — storefronts, inventory, and fulfillment logic that scale with demand.",
+      capabilities: ["Commerce platforms", "Inventory systems", "Personalization"],
     },
     {
-      id: "p4",
-      title: "Add your fourth project",
-      result: "Replace this card in lib/site-config.js",
-      category: "Cloud & Data",
-      icon: "cloud-devops",
-      scene: "cloud",
-    },
-  ],
-  testimonials: [
-    {
-      quote:
-        "Scalwe became an extension of our team. They shipped our MVP in weeks, not quarters, without cutting corners on architecture.",
-      name: "Founder",
-      role: "Early-stage SaaS startup",
+      name: "Logistics",
+      description:
+        "Operational software for fleets, warehouses, and supply chains, where reliability and real-time visibility are non-negotiable.",
+      capabilities: ["Tracking systems", "Route optimization", "Operational dashboards"],
     },
     {
-      quote:
-        "Their DevOps overhaul cut our deployment time from hours to minutes and gave us real visibility into production for the first time.",
-      name: "VP of Engineering",
-      role: "Series B fintech company",
+      name: "SaaS",
+      description:
+        "Product engineering for software companies — from first architecture decisions to the systems that support scale.",
+      capabilities: ["Product architecture", "Multi-tenant systems", "Usage-based billing"],
     },
     {
-      quote:
-        "We brought Scalwe in for AI automation and they stayed on as long-term staff augmentation. Consistently senior-level work.",
-      name: "Head of Product",
-      role: "B2B logistics platform",
+      name: "Professional Services",
+      description:
+        "Internal tools and client-facing platforms that remove manual work from knowledge-heavy service businesses.",
+      capabilities: ["Workflow automation", "Client portals", "Reporting systems"],
+    },
+    {
+      name: "Real Estate",
+      description:
+        "Platforms for listings, transactions, and property operations, connecting fragmented data into one usable system.",
+      capabilities: ["Listing platforms", "Transaction workflows", "Data integration"],
+    },
+    {
+      name: "Startups & Scaleups",
+      description:
+        "Founding technical partners for teams that need to move fast without inheriting technical debt six months later.",
+      capabilities: ["MVP engineering", "Technical strategy", "Fractional CTO support"],
     },
   ],
   faqs: [
@@ -137,50 +133,50 @@ export const siteConfig = {
     {
       slug: "ai-development",
       name: "AI Development",
-      description:
-        "Custom AI products, predictive systems, intelligent workflows, and model-driven experiences.",
+      description: "Intelligent systems designed around real business problems.",
+      tags: ["AI Agents", "Generative AI", "Machine Learning", "Computer Vision", "Predictive Systems"],
     },
     {
       slug: "saas-development",
       name: "SaaS Development",
-      description:
-        "Scalable product architecture, customer workflows, dashboards, and cloud-native SaaS platforms.",
+      description: "Scalable product architecture built for growth, not just launch.",
+      tags: ["Product Architecture", "Multi-tenant Systems", "Dashboards", "Billing", "APIs"],
     },
     {
       slug: "mobile-development",
       name: "Mobile Development",
-      description:
-        "High-performing apps for iOS and Android with user-focused design and robust backend integration.",
+      description: "High-performing native and cross-platform apps, end to end.",
+      tags: ["iOS", "Android", "React Native", "Flutter", "Backend Integration"],
     },
     {
       slug: "cloud-devops",
       name: "Cloud & DevOps",
-      description:
-        "Deployment pipelines, infrastructure automation, observability, and secure platform operations.",
+      description: "Infrastructure and pipelines that hold up under real load.",
+      tags: ["CI/CD", "Kubernetes", "Infrastructure as Code", "Observability", "Security"],
     },
     {
       slug: "data-engineering",
       name: "Data Engineering",
-      description:
-        "Modern data pipelines, warehousing, transformation workflows, and analytics enablement.",
+      description: "Data systems that turn raw information into decisions.",
+      tags: ["Data Pipelines", "Warehousing", "Analytics", "ETL", "Real-time Processing"],
     },
     {
       slug: "ai-automation",
       name: "AI Automation",
-      description:
-        "Automated operations, workflow orchestration, and intelligent process improvements across teams.",
+      description: "Automated operations that remove manual work at scale.",
+      tags: ["Workflow Automation", "RPA", "Process Mining", "Integrations", "Agents"],
     },
     {
       slug: "staff-augmentation",
       name: "Staff Augmentation",
-      description:
-        "Senior engineers and specialists embedded into your team to accelerate delivery without overhead.",
+      description: "Senior engineers embedded directly into your team.",
+      tags: ["Embedded Engineers", "Team Extension", "Fast Ramp-up", "Full-stack", "Specialists"],
     },
     {
       slug: "technical-consulting",
       name: "Technical Consulting",
-      description:
-        "Architecture guidance, product strategy, technical roadmaps, and digital transformation advisory.",
+      description: "Architecture and strategy for complex technical decisions.",
+      tags: ["Architecture Review", "Technical Strategy", "Roadmapping", "Due Diligence", "Advisory"],
     },
   ],
 };

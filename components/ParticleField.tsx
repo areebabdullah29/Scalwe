@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-type Node = { x: number; y: number; r: number };
+type Node = { x: number; y: number; r: number; vx: number; vy: number };
 
 export default function ParticleField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -14,12 +14,18 @@ export default function ParticleField() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
     let width = 0;
     let height = 0;
     let nodes: Node[] = [];
+    let frame = 0;
 
-    const NODE_COLOR = "139, 92, 246";
-    const LINK_DISTANCE = 130;
+    const ACCENT = "109, 91, 246";
+    const LINK_DISTANCE = 150;
+    const SPEED = prefersReducedMotion ? 0 : 0.12;
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -29,12 +35,23 @@ export default function ParticleField() {
       canvas.height = height * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      const count = Math.round((width * height) / 18000);
-      nodes = Array.from({ length: Math.min(count, 70) }, () => ({
+      const count = Math.round((width * height) / 24000);
+      nodes = Array.from({ length: Math.min(count, 60) }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
-        r: Math.random() * 1.6 + 0.6,
+        r: Math.random() * 1.4 + 0.5,
+        vx: (Math.random() - 0.5) * SPEED,
+        vy: (Math.random() - 0.5) * SPEED,
       }));
+    };
+
+    const step = () => {
+      for (const n of nodes) {
+        n.x += n.vx;
+        n.y += n.vy;
+        if (n.x < 0 || n.x > width) n.vx *= -1;
+        if (n.y < 0 || n.y > height) n.vy *= -1;
+      }
     };
 
     const draw = () => {
@@ -48,7 +65,7 @@ export default function ParticleField() {
           const dy = a.y - b.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < LINK_DISTANCE) {
-            ctx.strokeStyle = `rgba(${NODE_COLOR}, ${(1 - dist / LINK_DISTANCE) * 0.35})`;
+            ctx.strokeStyle = `rgba(${ACCENT}, ${(1 - dist / LINK_DISTANCE) * 0.28})`;
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
@@ -59,23 +76,40 @@ export default function ParticleField() {
       }
 
       for (const n of nodes) {
-        ctx.fillStyle = `rgba(${NODE_COLOR}, 0.8)`;
+        ctx.fillStyle = `rgba(${ACCENT}, 0.7)`;
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
         ctx.fill();
       }
     };
 
-    const redraw = () => {
+    let rafId = 0;
+    const tick = () => {
+      frame++;
+      if (!prefersReducedMotion || frame === 1) {
+        step();
+        draw();
+      }
+      if (!prefersReducedMotion) {
+        rafId = requestAnimationFrame(tick);
+      }
+    };
+
+    resize();
+    draw();
+    if (!prefersReducedMotion) {
+      rafId = requestAnimationFrame(tick);
+    }
+
+    const handleResize = () => {
       resize();
       draw();
     };
-
-    redraw();
-    window.addEventListener("resize", redraw);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener("resize", redraw);
+      window.removeEventListener("resize", handleResize);
+      cancelAnimationFrame(rafId);
     };
   }, []);
 

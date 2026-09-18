@@ -1,42 +1,54 @@
 import PlatformIllustration from "./illustrations/PlatformIllustration";
 
+const principles = [
+  {
+    title: "Business-first engineering",
+    description: "Every technical decision is judged against the outcome it needs to produce.",
+  },
+  {
+    title: "Senior technical expertise",
+    description: "You work directly with the engineers building your system, not a rotating bench.",
+  },
+  {
+    title: "AI-native thinking",
+    description: "We design for where software is heading, not just where it is today.",
+  },
+  {
+    title: "Built to scale",
+    description: "Architecture decisions account for the next stage of growth, not just the launch.",
+  },
+];
+
 export default function About() {
   return (
     <section id="about" className="section section-alt">
       <div className="container split-grid">
         <div className="reveal">
           <span className="eyebrow">Why Scalwe</span>
-          <h2>We turn complexity into momentum.</h2>
+          <h2>
+            Small enough to move fast.
+            <br />
+            Technical enough to build what others can&apos;t.
+          </h2>
           <p>
-            Scalwe helps businesses move from fragmented systems to
-            integrated growth engines. Whether you need an AI capability, a
-            product launch, or a stronger technical foundation, we design
-            practical solutions that scale with your goals.
+            Scalwe is a digital engineering company. We help ambitious businesses
+            design, build, and scale the AI systems, software, and infrastructure
+            behind their next stage of growth.
           </p>
-          <ul className="check-list">
-            <li>Product strategy aligned with business outcomes</li>
-            <li>Full-stack execution across web, mobile, cloud, and AI</li>
-            <li>Lean delivery with transparency and measurable ROI</li>
+
+          <ul className="principles-list">
+            {principles.map((p) => (
+              <li key={p.title}>
+                <strong>{p.title}</strong>
+                <span>{p.description}</span>
+              </li>
+            ))}
           </ul>
         </div>
 
         <div className="feature-panel reveal" data-reveal-delay="1">
           <div className="illustration-card illustration-card-lg">
             <PlatformIllustration />
-          </div>
-          <div className="feature-strip">
-            <div className="feature-chip">
-              <strong>Strategy</strong>
-              <span>Roadmaps and decisions that reduce risk.</span>
-            </div>
-            <div className="feature-chip">
-              <strong>Build</strong>
-              <span>Engineering, integrations, and implementation.</span>
-            </div>
-            <div className="feature-chip">
-              <strong>Scale</strong>
-              <span>Cloud systems, monitoring, and improvement.</span>
-            </div>
           </div>
         </div>
       </div>

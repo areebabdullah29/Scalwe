@@ -1,34 +1,84 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { siteConfig } from "@/lib/site-config";
+
+const navLinks = [
+  { href: "/#services", label: "Services" },
+  { href: "/#work", label: "Work" },
+  { href: "/#technology", label: "Technology" },
+  { href: "/#process", label: "Process" },
+  { href: "/#about", label: "About" },
+  { href: "/#contact", label: "Contact" },
+];
 
 export default function Header() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    document.body.classList.toggle("menu-open", menuOpen);
+    return () => document.body.classList.remove("menu-open");
+  }, [menuOpen]);
+
+  const closeMenu = () => setMenuOpen(false);
+
   return (
-    <header className="site-header">
+    <header className={`site-header${scrolled ? " is-scrolled" : ""}`}>
       <div className="container nav-wrapper">
-        <Link href="/#top" className="brand" aria-label="Scalwe home">
-          <span className="brand-mark">S</span>
-          <span>Scalwe</span>
+        <Link href="/#top" className="brand" aria-label="Scalwe home" onClick={closeMenu}>
+          SCALWE
         </Link>
 
         <nav className="main-nav" aria-label="Main navigation">
-          <Link href="/#services">Services</Link>
-          <Link href="/#work">Work</Link>
-          <Link href="/#tech">Technology</Link>
-          <Link href="/#process">Process</Link>
-          <Link href="/#faq">FAQ</Link>
-          <Link href="/#contact">Contact</Link>
+          {navLinks.map((link) => (
+            <Link key={link.href} href={link.href}>
+              {link.label}
+            </Link>
+          ))}
         </nav>
 
         <div className="nav-actions">
-          <a
-            href={`mailto:${siteConfig.email}?subject=${encodeURIComponent(
-              "Booking a call with Scalwe"
-            )}`}
-            className="btn btn-primary nav-cta"
-          >
-            Book a Call
-          </a>
+          <Link href="/#contact" className="nav-cta link-underline">
+            Let&apos;s Talk <span aria-hidden="true">→</span>
+          </Link>
         </div>
+
+        <button
+          type="button"
+          className={`menu-toggle${menuOpen ? " is-open" : ""}`}
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((v) => !v)}
+        >
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+      <div className={`mobile-menu${menuOpen ? " is-open" : ""}`}>
+        <nav className="mobile-nav" aria-label="Mobile navigation">
+          {navLinks.map((link, i) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={closeMenu}
+              style={{ transitionDelay: `${i * 40}ms` }}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+        <Link href="/#contact" className="btn btn-primary mobile-menu-cta" onClick={closeMenu}>
+          Let&apos;s Talk <span aria-hidden="true">→</span>
+        </Link>
       </div>
     </header>
   );

@@ -1,14 +1,13 @@
 import Header from "@/components/Header";
-import ServicesRibbon from "@/components/ServicesRibbon";
 import Hero from "@/components/Hero";
-import Portfolio from "@/components/Portfolio";
+import CapabilitiesMarquee from "@/components/CapabilitiesMarquee";
+import Positioning from "@/components/Positioning";
 import Services from "@/components/Services";
-import Process from "@/components/Process";
+import Portfolio from "@/components/Portfolio";
 import TechStack from "@/components/TechStack";
+import Process from "@/components/Process";
 import About from "@/components/About";
-import LogosStrip from "@/components/LogosStrip";
-import StatsBand from "@/components/StatsBand";
-import Testimonials from "@/components/Testimonials";
+import Industries from "@/components/Industries";
 import Faq from "@/components/Faq";
 import CtaBand from "@/components/CtaBand";
 import ContactForm from "@/components/ContactForm";
@@ -19,17 +18,16 @@ export default function Home() {
   return (
     <>
       <Header />
-      <ServicesRibbon />
       <main id="top">
         <Hero />
-        <Portfolio />
+        <CapabilitiesMarquee />
+        <Positioning />
         <Services />
-        <Process />
+        <Portfolio />
         <TechStack />
+        <Process />
         <About />
-        <LogosStrip />
-        <StatsBand />
-        <Testimonials />
+        <Industries />
         <Faq />
         <CtaBand />
         <ContactForm />

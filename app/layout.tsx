@@ -5,6 +5,7 @@ import "./globals.css";
 import { siteConfig } from "@/lib/site-config";
 import CookieConsent from "@/components/CookieConsent";
 import ChatWidget from "@/components/ChatWidget";
+import CustomCursor from "@/components/CustomCursor";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -59,7 +60,6 @@ const organizationJsonLd = {
   url: siteConfig.url,
   description: siteConfig.description,
   email: siteConfig.email,
-  telephone: siteConfig.phone,
   logo: `${siteConfig.url}/favicon.svg`,
   makesOffer: siteConfig.services.map((service) => ({
     "@type": "Offer",
@@ -82,6 +82,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         {children}
         <CookieConsent />
         <ChatWidget />
+        <CustomCursor />
       </body>
     </html>
   );

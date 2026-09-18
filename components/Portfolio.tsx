@@ -1,52 +1,24 @@
-"use client";
-
-import { useState } from "react";
 import { siteConfig } from "@/lib/site-config";
-import { serviceIcons } from "./ServiceIcons";
-import WorkScene from "./illustrations/WorkScene";
 
 export default function Portfolio() {
-  const [active, setActive] = useState("All");
-  const items =
-    active === "All"
-      ? siteConfig.portfolio
-      : siteConfig.portfolio.filter((p) => p.category === active);
-
   return (
-    <section id="work" className="section">
-      <div className="container">
+    <section id="work" className="section section-alt">
+      <div className="container work-empty">
         <div className="section-heading reveal">
-          <span className="eyebrow">Our work</span>
-          <h2>A look at what we've built.</h2>
+          <span className="eyebrow">Selected Work</span>
+          <h2>Case studies, coming soon.</h2>
         </div>
 
-        <div className="tech-tabs reveal" role="tablist" aria-label="Portfolio categories">
-          {siteConfig.portfolioCategories.map((cat) => (
-            <button
-              key={cat}
-              role="tab"
-              aria-selected={active === cat}
-              className={`tech-tab${active === cat ? " is-active" : ""}`}
-              onClick={() => setActive(cat)}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
+        <p className="work-empty-copy reveal" data-reveal-delay="1">
+          We&apos;re preparing detailed case studies from our current engagements.
+          In the meantime, here&apos;s what we build across{" "}
+          {siteConfig.services.length} core disciplines — from AI systems to
+          cloud infrastructure.
+        </p>
 
-        <div className="portfolio-grid">
-          {items.map((item, i) => (
-            <article key={item.id} className="portfolio-card reveal" data-reveal-delay={i % 4}>
-              <div className="portfolio-media">
-                <WorkScene variant={item.scene} />
-                <span className="portfolio-icon">{serviceIcons[item.icon]}</span>
-              </div>
-              <span className="portfolio-tag">{item.category}</span>
-              <h3>{item.title}</h3>
-              <p>{item.result}</p>
-            </article>
-          ))}
-        </div>
+        <a href="#services" className="btn btn-ghost link-underline reveal" data-reveal-delay="2">
+          Explore Our Services <span aria-hidden="true">→</span>
+        </a>
       </div>
     </section>
   );
