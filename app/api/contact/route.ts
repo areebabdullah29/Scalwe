@@ -3,10 +3,14 @@ import { siteConfig } from "@/lib/site-config";
 
 type ContactBody = {
   name?: string;
+  firstName?: string;
+  lastName?: string;
   email?: string;
   company?: string;
+  country?: string;
   service?: string;
   message?: string;
+  challenge?: string;
   website?: string;
   recaptchaToken?: string;
 };
@@ -38,7 +42,20 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
-  const { name, email, company, service, message, website, recaptchaToken } = body || {};
+  const {
+    firstName,
+    lastName,
+    email,
+    company,
+    country,
+    service,
+    challenge,
+    website,
+    recaptchaToken,
+  } = body || {};
+
+  const name = body.name || [firstName, lastName].filter(Boolean).join(" ");
+  const message = body.message || challenge;
 
   // Honeypot field — bots tend to fill every input, real users never see it.
   if (website) {
@@ -47,7 +64,7 @@ export async function POST(request: NextRequest) {
 
   if (!name || !email || !message) {
     return NextResponse.json(
-      { error: "Name, email, and project details are required." },
+      { error: "Name, email, and your challenge/goal are required." },
       { status: 400 }
     );
   }
@@ -68,11 +85,20 @@ export async function POST(request: NextRequest) {
   const apiKey = process.env.RESEND_API_KEY;
   const toEmail = process.env.CONTACT_TO_EMAIL || siteConfig.email;
 
+  const details = [
+    company ? `Company: ${company}` : null,
+    country ? `Country: ${country}` : null,
+    service ? `Service: ${service}` : null,
+  ]
+    .filter(Boolean)
+    .join("\n");
+
   if (!apiKey) {
     console.log("Contact form submission (RESEND_API_KEY not set):", {
       name,
       email,
       company,
+      country,
       service,
       message,
     });
@@ -95,7 +121,7 @@ export async function POST(request: NextRequest) {
         to: toEmail,
         reply_to: email,
         subject: `New inquiry from ${name}${company ? ` — ${company}` : ""}`,
-        text: `${message}\n\n---\nFrom: ${name} <${email}>\nCompany: ${company || "Not specified"}\nService: ${service || "Not specified"}`,
+        text: `${message}\n\n---\nFrom: ${name} <${email}>${details ? `\n${details}` : ""}`,
       }),
     });
 
