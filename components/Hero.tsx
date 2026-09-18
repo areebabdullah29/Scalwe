@@ -29,10 +29,15 @@ export default function Hero() {
           <a href="#contact" className="btn btn-primary">
             Start a Project <span aria-hidden="true">→</span>
           </a>
-          <a href="#work" className="btn btn-ghost link-underline">
+          <a href="#work" className="btn btn-ghost">
             Explore Our Work <span aria-hidden="true">→</span>
           </a>
         </div>
+      </div>
+
+      <div className="hero-scroll-cue hero-reveal" style={{ "--reveal-delay": 5 } as CSSProperties} aria-hidden="true">
+        <span className="hero-scroll-line"></span>
+        <span>Scroll</span>
       </div>
     </section>
   );

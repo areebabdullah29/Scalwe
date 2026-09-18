@@ -17,12 +17,7 @@ export default function Services() {
         </div>
 
         <div className="services-interactive reveal" data-reveal-delay="1">
-          <ul
-            className="services-list"
-            role="tablist"
-            aria-label="Services"
-            onMouseLeave={() => setActive(0)}
-          >
+          <ul className="services-list" role="tablist" aria-label="Services">
             {siteConfig.services.map((service, i) => (
               <li key={service.slug}>
                 <button
