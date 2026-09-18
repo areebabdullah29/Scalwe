@@ -4,8 +4,7 @@ import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { countries } from "@/lib/countries";
 
-const RECAPTCHA_SITE_KEY =
-  process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
+const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "";
 
 const initialForm = {
   challenge: "",
