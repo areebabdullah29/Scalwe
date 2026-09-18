@@ -1797,6 +1797,10 @@ p {
     align-items: stretch;
   }
 
+  .cookie-banner p {
+    flex-basis: auto;
+  }
+
   .cookie-actions {
     justify-content: stretch;
   }
